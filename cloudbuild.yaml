@@ -1,0 +1,44 @@
+steps:
+# build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/demo-app:$COMMIT_SHA', '.']
+# push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/demo-app:$COMMIT_SHA']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'run'
+  - 'deploy'
+  - 'demo-app'
+  - '--image'
+  - 'gcr.io/$PROJECT_ID/demo-app:$COMMIT_SHA'
+  - '--region'
+  - 'us-central1'
+  - '--platform'
+  - 'managed'
+images:
+- 'gcr.io/$PROJECT_ID/demo-app:$COMMIT_SHA'
+
+
+steps:
+# build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'REGION-docker.pkg.dev/$PROJECT_ID/REPOSITORY-NAME/demo-app:$COMMIT_SHA', '.']
+# push the container image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'REGION-docker.pkg.dev/$PROJECT_ID/REPOSITORY-NAME/demo-app:$COMMIT_SHA']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'run'
+  - 'deploy'
+  - 'demo-app'
+  - '--image'
+  - 'REGION-docker.pkg.dev/$PROJECT_ID/REPOSITORY-NAME/demo-app:$COMMIT_SHA'
+  - '--region'
+  - 'us-central1'
+  - '--platform'
+  - 'managed'
+images:
+- 'REGION-docker.pkg.dev/$PROJECT_ID/REPOSITORY-NAME/demo-app:$COMMIT_SHA'
