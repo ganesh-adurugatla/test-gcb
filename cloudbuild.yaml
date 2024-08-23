@@ -5,7 +5,7 @@ steps:
 # push the container image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia-south1-docker.pkg.dev/play-407912/test-gcb/demo-app:prod1']
-- options:
-  logging: CLOUD_LOGGING_ONLY
-# Deploy container image to Cloud Run
 
+# Options configuration at the root level
+options:
+  logging: CLOUD_LOGGING_ONLY
