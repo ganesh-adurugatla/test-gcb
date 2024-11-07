@@ -1,27 +1,26 @@
 steps:
-  # Get the Git commit SHA
-  - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'bash'
-    args:
-    - '-c'
-    - |
-      echo "$(git rev-parse HEAD)" > ./git_commit_sha.txt
+# Get the Git commit SHA
+- name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    echo "$(git rev-parse HEAD)" > ./git_commit_sha.txt
 
-  # Build the container image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: 
-      - 'build'
-      - '-t'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}:${_TAG}'
-      - '--build-arg'
-      - 'GIT_COMMIT=$(cat ./git_commit_sha.txt)'
-      - '.'
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+    - 'build'
+    - '-t'
+    - 'asia-south1-docker.pkg.dev/play-407912/test-gcb/demo-app:prod1'
+    - '--build-arg'
+    - 'GIT_COMMIT=$(cat ./git_commit_sha.txt)'
+    - '.'
 
-  # Push the container image to Artifact Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: 
-      - 'push'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}:${_TAG}'
+# Push the container image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'asia-south1-docker.pkg.dev/play-407912/test-gcb/demo-app:prod1']
 
+# Options configuration at the root level
 options:
   logging: CLOUD_LOGGING_ONLY
