@@ -1,0 +1,6 @@
+substitutions:
+  _REGION: asia-south1
+  _PROJECT_ID: play-407912
+  _REPOSITORY: test-gcb
+  _IMAGE_NAME: demo-app
+  _TAG: prod1
