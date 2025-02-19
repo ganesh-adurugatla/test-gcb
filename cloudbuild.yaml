@@ -1,18 +1,11 @@
 steps:
-  # Get the Git commit SHA
-  - name: 'gcr.io/cloud-builders/git'
-    entrypoint: 'bash'
-    args:
-    - '-c'
-    - |
-      echo "$(git rev-parse HEAD)" > ./git_commit_sha.txt
 
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'build'
       - '-t'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}:${_TAG}'
+      - 'asia-south1-docker.pkg.dev/vishakha-403211/test-tf'
       - '--build-arg'
       - 'GIT_COMMIT=$(cat ./git_commit_sha.txt)'
       - '.'
@@ -21,7 +14,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: 
       - 'push'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPOSITORY}/${_IMAGE_NAME}:${_TAG}'
+      - 'asia-south1-docker.pkg.dev/vishakha-403211/test-tf'
 
 options:
   logging: CLOUD_LOGGING_ONLY
